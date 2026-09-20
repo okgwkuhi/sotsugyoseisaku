@@ -198,10 +198,18 @@ MVPで作る機能
 
 10-1. 使用予定の技術
 フレームワーク：Ruby on rails
-DB：MySQL
-デプロイ先：Render
+DB：MySQL　→ PostgreSQL
+デプロイ先：Render → Render + Neon 
 使用予定ライブラリ：devise pagy
 
+**変更理由**
+- 当初はMySQL + Renderで進めていたが、RenderはマネージドMySQLを提供しておらず、
+  MySQLをPrivate Serviceとして自前ホストすると月額$14.25が必要と判明
+- 無料で使える組み合わせを探した結果、Neon(PostgreSQL)が期限なしの無料枠を
+  提供しており、Renderの無料Web Serviceと組み合わせれば完全無料でデプロイできることが分かった
+- これを踏まえ、DBエンジンをMySQLからPostgreSQLに変更し、
+  開発・本番ともにPostgreSQLへ統一する方針に決定した
+  
 10-2. 技術選定の比較検討
 | Ruby on Rails | 採用 | 今回の卒業制作の的間として作成したいため |
 | React | 不採用 | 情報が豊富だが、まとめとしてRUby on Railsで作成したかっため |

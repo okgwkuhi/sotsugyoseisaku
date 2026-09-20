@@ -1,0 +1,48 @@
+services:
+  # --- MySQL (Private Service) ---
+  - type: pserv
+    name: bodoge-app-db
+    runtime: image
+    image:
+      url: docker.io/library/mysql:8.0
+    disk:
+      name: mysql-data
+      mountPath: /var/lib/mysql
+      sizeGB: 1
+    envVars:
+      - key: MYSQL_ROOT_PASSWORD
+        generateValue: true
+      - key: MYSQL_DATABASE
+        value: bodoge_app_production
+      - key: TZ
+        value: Asia/Tokyo
+
+  # --- Rails本体 (Web Service) ---
+  - type: web
+    name: bodoge-app-web
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerCommand: >
+      bash -c "bundle exec rails db:prepare &&
+               bundle exec rails assets:precompile &&
+               bundle exec rails server -b 0.0.0.0 -p 3000"
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_SERVE_STATIC_FILES
+        value: "true"
+      - key: RAILS_LOG_TO_STDOUT
+        value: "true"
+      - key: SECRET_KEY_BASE
+        generateValue: true
+      - key: DB_HOST
+        fromService:
+          name: bodoge-app-db
+          type: pserv
+          property: host
+      - key: MYSQL_ROOT_PASSWORD
+        fromService:
+          name: bodoge-app-db
+          type: pserv
+          envVarKey: MYSQL_ROOT_PASSWORD
+    healthCheckPath: /

@@ -13,3 +13,4 @@ WORKDIR $APP
 COPY Gemfile      $APP/Gemfile
 COPY Gemfile.lock $APP/Gemfile.lock
 RUN bundle install
+CMD ["sh", "-c", "bundle exec rails db:prepare && bundle exec rails assets:precompile && bundle exec rails server -b 0.0.0.0 -p $PORT"]

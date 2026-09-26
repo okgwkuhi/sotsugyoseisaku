@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update]
-  before_action :set_post, only: [:show, :edit, :update]
-  before_action :ensure_organizer!, only: [:edit, :update]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :ensure_organizer!, only: [:edit, :update, :destroy]
 
   def index
     @posts = Post.includes(:user)
@@ -39,6 +39,16 @@ class PostsController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    unless @post.status == "open"
+      redirect_to post_path(@post), alert: "開催済み・キャンセル済みの募集は削除できません。"
+      return
+    end
+
+    @post.destroy
+    redirect_to posts_path, notice: "募集を削除しました。", status: :see_other
   end
 
   private

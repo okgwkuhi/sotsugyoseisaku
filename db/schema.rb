@@ -10,9 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_25_235628) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_26_035331) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "posts", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "title", null: false
+    t.string "game_name", null: false
+    t.datetime "event_at", null: false
+    t.string "area", null: false
+    t.string "meeting_place"
+    t.integer "capacity", null: false
+    t.string "style", null: false
+    t.string "level", default: "誰でも歓迎"
+    t.string "status", default: "open"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_at"], name: "index_posts_on_event_at"
+    t.index ["game_name"], name: "index_posts_on_game_name"
+    t.index ["style"], name: "index_posts_on_style"
+    t.index ["user_id"], name: "index_posts_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -31,4 +51,5 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_25_235628) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "posts", "users"
 end

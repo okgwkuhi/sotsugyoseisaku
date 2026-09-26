@@ -1,3 +1,31 @@
 <h1>募集一覧</h1>
 
-<p>まだ募集がありません。最初の投稿者になりませんか?</p>
+<%= form_with url: posts_path, method: :get, local: true do %>
+  <%= select_tag :game_name,
+        options_for_select([["すべてのゲーム", nil]] + @game_names, params[:game_name]),
+        onchange: "this.form.submit()" %>
+  <%= select_tag :style,
+        options_for_select([["すべての温度感", nil]] + @styles, params[:style]),
+        onchange: "this.form.submit()" %>
+<% end %>
+
+<% if @posts.any? %>
+  <% @posts.each do |post| %>
+    <div class="post-card">
+      <p><strong><%= post.title %></strong></p>
+      <p>
+        <%= post.event_at.strftime("%-m/%-d(%a) %H:%M〜") %>
+        ・<%= post.area %>
+        ・<%= post.style %>
+      </p>
+    </div>
+  <% end %>
+<% else %>
+  <p>まだ募集がありません。最初の投稿者になりませんか?</p>
+<% end %>
+
+<% if user_signed_in? %>
+  <%= link_to "＋ 募集を投稿する", new_post_path %>
+<% else %>
+  <%= link_to "＋ 募集を投稿する(ログインが必要です)", new_user_session_path %>
+<% end %>

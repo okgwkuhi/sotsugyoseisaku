@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  title: MyString
+  game_name: MyString
+  event_at: 2026-09-26 12:53:32
+  area: MyString
+  meeting_place: MyString
+  capacity: 1
+  style: MyString
+  level: MyString
+  status: MyString
+  description: MyText
+
+two:
+  user: two
+  title: MyString
+  game_name: MyString
+  event_at: 2026-09-26 12:53:32
+  area: MyString
+  meeting_place: MyString
+  capacity: 1
+  style: MyString
+  level: MyString
+  status: MyString
+  description: MyText

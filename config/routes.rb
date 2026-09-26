@@ -4,5 +4,7 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
 
   root "posts#index"
-  resources :posts, only: [:index, :new, :create, :show, :edit, :update, :destroy]
+  resources :posts, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
+    resources :applications, only: [:new, :create]
+  end
 end

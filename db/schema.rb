@@ -10,9 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_26_035331) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_26_111336) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "applications", force: :cascade do |t|
+    t.bigint "post_id", null: false
+    t.bigint "user_id", null: false
+    t.text "comment"
+    t.string "status", default: "pending"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id", "user_id"], name: "index_applications_on_post_id_and_user_id", unique: true
+    t.index ["post_id"], name: "index_applications_on_post_id"
+    t.index ["user_id"], name: "index_applications_on_user_id"
+  end
 
   create_table "posts", force: :cascade do |t|
     t.bigint "user_id", null: false
@@ -51,5 +63,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_26_035331) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "applications", "posts"
+  add_foreign_key "applications", "users"
   add_foreign_key "posts", "users"
 end

@@ -32,8 +32,14 @@
             form: { data: { turbo_confirm: "本当にこの募集を削除しますか?" } } %>
     </p>
   <% else %>
-    <%# Issue #8(応募機能)で実装予定 %>
-    <p>応募機能は近日実装予定です。</p>
+    <% my_application = @post.applications.find_by(user: current_user) %>
+    <% if my_application %>
+      <p>応募済みです(ステータス:<%= my_application.status %>)</p>
+    <% elsif @post.full? %>
+      <p>この募集は定員に達しました。</p>
+    <% else %>
+      <%= link_to "応募する", new_post_application_path(@post) %>
+    <% end %>
   <% end %>
 <% else %>
   <%= link_to "応募するにはログインしてください", new_user_session_path %>

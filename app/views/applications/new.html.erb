@@ -1,0 +1,24 @@
+<h1>応募する</h1>
+
+<p><%= @post.title %>・<%= @post.event_at.strftime("%-m/%-d(%a) %H:%M〜") %></p>
+
+<%= form_with model: @application, url: post_applications_path(@post), local: true do |f| %>
+  <% if @application.errors.any? %>
+    <div class="alert">
+      <ul>
+        <% @application.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :comment, "一言コメント" %>
+    <%= f.text_area :comment, placeholder: "はじめまして、参加させてください!" %>
+  </div>
+
+  <%= f.submit "応募を送信" %>
+<% end %>
+
+<%= link_to "詳細に戻る", post_path(@post) %>

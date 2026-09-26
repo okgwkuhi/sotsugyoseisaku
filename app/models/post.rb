@@ -1,5 +1,6 @@
 class Post < ApplicationRecord
   belongs_to :user
+  has_many :applications, dependent: :destroy
 
   STYLES = ["じっくり系", "ワイワイ系"].freeze
   STATUSES = ["open", "closed", "cancelled"].freeze
@@ -15,5 +16,17 @@ class Post < ApplicationRecord
 
   def organizer?(user)
     user.present? && user_id == user.id
+  end
+
+  def approved_count
+    applications.where(status: "approved").count
+  end
+
+  def spots_left
+    [capacity - approved_count, 0].max
+  end
+
+  def full?
+    spots_left.zero?
   end
 end

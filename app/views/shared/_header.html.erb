@@ -6,13 +6,20 @@
       <li class="nav-item">
         <%= link_to "募集一覧", root_path, class: "nav-link" %>
       </li>
-      
-      <li class="nav-item">
-        <%= link_to "新規登録", "#", class: "nav-link" %>
-      </li>
-      <li class="nav-item">
-        <%= link_to "ログイン", "#", class: "nav-link" %>
-      </li>
+
+      <% if user_signed_in? %>
+        <li class="nav-item"><%= current_user.name %>さん</li>
+        <li class="nav-item">
+          <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link" %>
+        </li>
+      <% else %>
+        <li class="nav-item">
+          <%= link_to "新規登録", new_user_registration_path, class: "nav-link" %>
+        </li>
+        <li class="nav-item">
+          <%= link_to "ログイン", new_user_session_path, class: "nav-link" %>
+        </li>
+      <% end %>
     </ul>
   </nav>
 </header>

@@ -1,6 +1,11 @@
 class ApplicationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_post
+  before_action :ensure_organizer!, only: [:index, :update]
+
+  def index
+    @applications = @post.applications.includes(:user)
+  end
 
   def new
     @application = @post.applications.new
@@ -17,10 +22,26 @@ class ApplicationsController < ApplicationController
     end
   end
 
+  def update
+    @application = @post.applications.find(params[:id])
+
+    if @application.update(status: params[:status])
+      redirect_to post_applications_path(@post), notice: "ステータスを更新しました。"
+    else
+      redirect_to post_applications_path(@post), alert: "更新に失敗しました。"
+    end
+  end
+
   private
 
   def set_post
     @post = Post.find(params[:post_id])
+  end
+
+  def ensure_organizer!
+    return if @post.organizer?(current_user)
+
+    redirect_to post_path(@post), alert: "この操作を行う権限がありません。"
   end
 
   def application_params

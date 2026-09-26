@@ -1,0 +1,24 @@
+<h1>応募者一覧</h1>
+
+<p><%= @post.title %></p>
+
+<% if @applications.any? %>
+  <% @applications.each do |application| %>
+    <div class="application-card">
+      <p><strong><%= application.user.name %></strong>(<%= application.user.level %>・<%= application.user.style %>)</p>
+      <p><%= application.comment %></p>
+      <p>ステータス:<%= application.status %></p>
+
+      <% if application.status == "pending" %>
+        <%= button_to "承認", post_application_path(@post, application),
+              method: :patch, params: { status: "approved" } %>
+        <%= button_to "非承認", post_application_path(@post, application),
+              method: :patch, params: { status: "rejected" } %>
+      <% end %>
+    </div>
+  <% end %>
+<% else %>
+  <p>まだ応募がありません。</p>
+<% end %>
+
+<%= link_to "募集詳細に戻る", post_path(@post) %>

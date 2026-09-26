@@ -16,9 +16,12 @@
 
   <p>主催者:<%= @post.user.name %>(<%= @post.user.level %>・<%= @post.user.style %>)</p>
 
-  <% if user_signed_in? && @post.organizer?(current_user) %>
+  <% my_application = user_signed_in? ? @post.applications.find_by(user: current_user) : nil %>
+  <% can_see_meeting_place = user_signed_in? && (@post.organizer?(current_user) || my_application&.status == "approved") %>
+
+  <% if can_see_meeting_place %>
     <p class="meeting-place">
-      詳細な場所(主催者のみ表示):<%= @post.meeting_place.presence || "未設定" %>
+      詳細な場所:<%= @post.meeting_place.presence || "未設定" %>
     </p>
   <% end %>
 </div>
@@ -30,9 +33,9 @@
       <%= link_to "編集する", edit_post_path(@post) %>
       <%= button_to "削除する", post_path(@post), method: :delete,
             form: { data: { turbo_confirm: "本当にこの募集を削除しますか?" } } %>
+      <%= link_to "応募者一覧を見る", post_applications_path(@post) %>
     </p>
   <% else %>
-    <% my_application = @post.applications.find_by(user: current_user) %>
     <% if my_application %>
       <p>応募済みです(ステータス:<%= my_application.status %>)</p>
     <% elsif @post.full? %>

@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update]
+  before_action :set_post, only: [:show, :edit, :update]
+  before_action :ensure_organizer!, only: [:edit, :update]
 
   def index
     @posts = Post.includes(:user)
@@ -12,7 +14,6 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find(params[:id])
   end
 
   def new
@@ -29,7 +30,28 @@ class PostsController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+    if @post.update(post_params)
+      redirect_to post_path(@post), notice: "募集を更新しました。"
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
   private
+
+  def set_post
+    @post = Post.find(params[:id])
+  end
+
+  def ensure_organizer!
+    return if @post.organizer?(current_user)
+
+    redirect_to post_path(@post), alert: "この操作を行う権限がありません。"
+  end
 
   def post_params
     params.require(:post).permit(

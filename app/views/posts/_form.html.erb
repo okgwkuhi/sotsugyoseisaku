@@ -1,0 +1,58 @@
+<%= form_with model: @post, local: true do |f| %>
+  <% if @post.errors.any? %>
+    <div class="alert">
+      <ul>
+        <% @post.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :game_name, "ゲーム名" %>
+    <%= f.text_field :game_name, placeholder: "カタン" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :title, "募集タイトル" %>
+    <%= f.text_field :title, placeholder: "カタン、土曜夜に対戦相手募集" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :event_at, "日時" %>
+    <%= f.datetime_field :event_at %>
+  </div>
+
+  <div class="field">
+    <%= f.label :area, "エリア" %>
+    <%= f.text_field :area, placeholder: "渋谷、オンラインなど" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :meeting_place, "詳細な場所(承認した参加者にのみ表示されます)" %>
+    <%= f.text_field :meeting_place %>
+  </div>
+
+  <div class="field">
+    <%= f.label :capacity, "募集人数" %>
+    <%= f.number_field :capacity, min: 1 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :style, "温度感" %>
+    <%= f.select :style, Post::STYLES %>
+  </div>
+
+  <div class="field">
+    <%= f.label :level, "対象レベル" %>
+    <%= f.text_field :level, placeholder: "初心者歓迎、中級者以上など" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :description, "詳細説明" %>
+    <%= f.text_area :description %>
+  </div>
+
+  <%= f.submit(@post.persisted? ? "更新する" : "投稿する") %>
+<% end %>

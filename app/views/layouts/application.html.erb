@@ -9,8 +9,16 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+   <body>
     <%= render "shared/header" %>
+
+    <% if notice %>
+      <p class="notice"><%= notice %></p>
+    <% end %>
+    <% if alert %>
+      <p class="alert"><%= alert %></p>
+    <% end %>
+
     <%= yield %>
     <%= render "shared/footer" %>
   </body>

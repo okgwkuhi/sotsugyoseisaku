@@ -11,6 +11,10 @@ class PostsController < ApplicationController
     @styles = Post::STYLES
   end
 
+  def show
+    @post = Post.find(params[:id])
+  end
+
   def new
     @post = current_user.posts.new
   end

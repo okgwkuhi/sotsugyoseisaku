@@ -1,0 +1,37 @@
+<h1>募集詳細</h1>
+
+<div class="post-detail">
+  <p><strong><%= @post.title %></strong></p>
+  <p>
+    <%= @post.event_at.strftime("%-m/%-d(%a) %H:%M〜") %>
+    ・<%= @post.area %>
+    ・<%= @post.style %>
+  </p>
+  <p>対象レベル:<%= @post.level %></p>
+  <p>募集人数:<%= @post.capacity %>人</p>
+
+  <% if @post.description.present? %>
+    <p><%= simple_format(@post.description) %></p>
+  <% end %>
+
+  <p>主催者:<%= @post.user.name %>(<%= @post.user.level %>・<%= @post.user.style %>)</p>
+
+  <% if user_signed_in? && @post.organizer?(current_user) %>
+    <p class="meeting-place">
+      詳細な場所(主催者のみ表示):<%= @post.meeting_place.presence || "未設定" %>
+    </p>
+  <% end %>
+</div>
+
+<% if user_signed_in? %>
+  <% if @post.organizer?(current_user) %>
+    <p>(自分の投稿です)</p>
+  <% else %>
+    <%# Issue #8(応募機能)で実装予定 %>
+    <p>応募機能は近日実装予定です。</p>
+  <% end %>
+<% else %>
+  <%= link_to "応募するにはログインしてください", new_user_session_path %>
+<% end %>
+
+<%= link_to "一覧へ戻る", posts_path %>

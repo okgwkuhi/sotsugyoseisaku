@@ -5,6 +5,9 @@ class WantAgainResponsesController < ApplicationController
 
   def new
     @participants = eligible_targets
+    @my_responses = @post.want_again_responses
+                         .where(user_id: current_user.id)
+                         .index_by(&:target_user_id)
   end
 
   def create

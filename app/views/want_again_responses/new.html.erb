@@ -7,11 +7,18 @@
     <div class="participant-card">
       <p><%= participant.name %>さん</p>
 
-      <%= button_to "また遊びたい", post_want_again_responses_path(@post),
+      <% my_response = @my_responses[participant.id] %>
+      <% if my_response %>
+        <p>回答済み(<%= my_response.wants_again? ? "また遊びたい" : "見送る" %>)</p>
+      <% end %>
+
+      <%= button_to (my_response&.wants_again? ? "また遊びたい ✓" : "また遊びたい"),
+            post_want_again_responses_path(@post),
             method: :post,
             params: { target_user_id: participant.id, wants_again: "true" } %>
 
-      <%= button_to "見送る", post_want_again_responses_path(@post),
+      <%= button_to (my_response && !my_response.wants_again? ? "見送る ✓" : "見送る"),
+            post_want_again_responses_path(@post),
             method: :post,
             params: { target_user_id: participant.id, wants_again: "false" } %>
     </div>

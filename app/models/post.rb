@@ -1,6 +1,7 @@
 class Post < ApplicationRecord
   belongs_to :user
   has_many :applications, dependent: :destroy
+  has_many :want_again_responses, dependent: :destroy
 
   STYLES = ["じっくり系", "ワイワイ系"].freeze
   STATUSES = ["open", "closed", "cancelled"].freeze
@@ -28,5 +29,13 @@ class Post < ApplicationRecord
 
   def full?
     spots_left.zero?
+  end
+
+  def approved_user_ids
+    applications.where(status: "approved").pluck(:user_id)
+  end
+
+  def organizer_id_or_approved_applicant?(uid)
+    user_id == uid || approved_user_ids.include?(uid)
   end
 end

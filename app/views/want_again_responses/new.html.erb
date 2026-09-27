@@ -1,0 +1,25 @@
+<h1>また遊びたいですか?</h1>
+
+<p><%= @post.title %>・<%= @post.event_at.strftime("%-m/%-d(%a)") %>の参加メンバー</p>
+
+<% if @participants.any? %>
+  <% @participants.each do |participant| %>
+    <div class="participant-card">
+      <p><%= participant.name %>さん</p>
+
+      <%= button_to "また遊びたい", post_want_again_responses_path(@post),
+            method: :post,
+            params: { target_user_id: participant.id, wants_again: "true" } %>
+
+      <%= button_to "見送る", post_want_again_responses_path(@post),
+            method: :post,
+            params: { target_user_id: participant.id, wants_again: "false" } %>
+    </div>
+  <% end %>
+<% else %>
+  <p>回答できる相手がいません。</p>
+<% end %>
+
+<p class="note">回答は相手には通知されません。双方が「また遊びたい」を選んだ場合のみ、お互いに知らされます。</p>
+
+<%= link_to "募集詳細に戻る", post_path(@post) %>

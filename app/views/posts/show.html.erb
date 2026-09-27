@@ -17,9 +17,9 @@
   <p>主催者:<%= @post.user.name %>(<%= @post.user.level %>・<%= @post.user.style %>)</p>
 
   <% my_application = user_signed_in? ? @post.applications.find_by(user: current_user) : nil %>
-  <% can_see_meeting_place = user_signed_in? && (@post.organizer?(current_user) || my_application&.status == "approved") %>
+  <% is_eligible = user_signed_in? && @post.organizer_id_or_approved_applicant?(current_user.id) %>
 
-  <% if can_see_meeting_place %>
+  <% if is_eligible %>
     <p class="meeting-place">
       詳細な場所:<%= @post.meeting_place.presence || "未設定" %>
     </p>
@@ -43,6 +43,10 @@
     <% else %>
       <%= link_to "応募する", new_post_application_path(@post) %>
     <% end %>
+  <% end %>
+
+  <% if is_eligible && @post.event_at <= Time.current %>
+    <p><%= link_to "また遊びたいか回答する", new_post_want_again_response_path(@post) %></p>
   <% end %>
 <% else %>
   <%= link_to "応募するにはログインしてください", new_user_session_path %>

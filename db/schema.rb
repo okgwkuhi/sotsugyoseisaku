@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_26_111336) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_27_020929) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -63,7 +63,23 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_26_111336) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "want_again_responses", force: :cascade do |t|
+    t.bigint "post_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "target_user_id", null: false
+    t.boolean "wants_again", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id", "user_id", "target_user_id"], name: "index_war_on_post_user_target", unique: true
+    t.index ["post_id"], name: "index_want_again_responses_on_post_id"
+    t.index ["target_user_id"], name: "index_want_again_responses_on_target_user_id"
+    t.index ["user_id"], name: "index_want_again_responses_on_user_id"
+  end
+
   add_foreign_key "applications", "posts"
   add_foreign_key "applications", "users"
   add_foreign_key "posts", "users"
+  add_foreign_key "want_again_responses", "posts"
+  add_foreign_key "want_again_responses", "users"
+  add_foreign_key "want_again_responses", "users", column: "target_user_id"
 end

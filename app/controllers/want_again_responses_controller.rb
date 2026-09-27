@@ -21,7 +21,17 @@ class WantAgainResponsesController < ApplicationController
     response.wants_again = wants_again
 
     if response.save
-      redirect_to new_post_want_again_response_path(@post), notice: "回答しました。"
+      match = Match.find_or_create_from_mutual!(
+        post: @post,
+        user1_id: current_user.id,
+        user2_id: target_user_id.to_i
+      )
+
+      if match
+        redirect_to new_post_want_again_response_path(@post), notice: "回答しました。マッチしました!"
+      else
+        redirect_to new_post_want_again_response_path(@post), notice: "回答しました。"
+      end
     else
       redirect_to new_post_want_again_response_path(@post), alert: response.errors.full_messages.join(", ")
     end

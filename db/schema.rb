@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_27_020929) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_27_031908) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,6 +24,19 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_27_020929) do
     t.index ["post_id", "user_id"], name: "index_applications_on_post_id_and_user_id", unique: true
     t.index ["post_id"], name: "index_applications_on_post_id"
     t.index ["user_id"], name: "index_applications_on_user_id"
+  end
+
+  create_table "matches", force: :cascade do |t|
+    t.bigint "post_id", null: false
+    t.bigint "user_a_id", null: false
+    t.bigint "user_b_id", null: false
+    t.datetime "matched_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["post_id", "user_a_id", "user_b_id"], name: "index_matches_on_post_and_users", unique: true
+    t.index ["post_id"], name: "index_matches_on_post_id"
+    t.index ["user_a_id"], name: "index_matches_on_user_a_id"
+    t.index ["user_b_id"], name: "index_matches_on_user_b_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -78,6 +91,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_27_020929) do
 
   add_foreign_key "applications", "posts"
   add_foreign_key "applications", "users"
+  add_foreign_key "matches", "posts"
+  add_foreign_key "matches", "users", column: "user_a_id"
+  add_foreign_key "matches", "users", column: "user_b_id"
   add_foreign_key "posts", "users"
   add_foreign_key "want_again_responses", "posts"
   add_foreign_key "want_again_responses", "users"

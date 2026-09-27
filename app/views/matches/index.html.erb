@@ -1,0 +1,15 @@
+<h1>マッチ一覧</h1>
+
+<% if @matches.any? %>
+  <% @matches.each do |match| %>
+    <div class="match-card">
+      <p><%= match.post.title %></p>
+      <p>相手:<%= match.partner_for(current_user.id).name %>さん</p>
+      <%= link_to "メッセージを見る", match_path(match) %>
+    </div>
+  <% end %>
+<% else %>
+  <p>まだマッチした相手がいません。</p>
+<% end %>
+
+<%= link_to "一覧へ戻る", posts_path %>

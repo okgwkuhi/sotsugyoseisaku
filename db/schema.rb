@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_09_27_031908) do
+ActiveRecord::Schema[7.1].define(version: 2026_09_27_034059) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -37,6 +37,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_27_031908) do
     t.index ["post_id"], name: "index_matches_on_post_id"
     t.index ["user_a_id"], name: "index_matches_on_user_a_id"
     t.index ["user_b_id"], name: "index_matches_on_user_b_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.bigint "match_id", null: false
+    t.bigint "sender_id", null: false
+    t.text "body", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_id"], name: "index_messages_on_match_id"
+    t.index ["sender_id"], name: "index_messages_on_sender_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -94,6 +104,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_09_27_031908) do
   add_foreign_key "matches", "posts"
   add_foreign_key "matches", "users", column: "user_a_id"
   add_foreign_key "matches", "users", column: "user_b_id"
+  add_foreign_key "messages", "matches"
+  add_foreign_key "messages", "users", column: "sender_id"
   add_foreign_key "posts", "users"
   add_foreign_key "want_again_responses", "posts"
   add_foreign_key "want_again_responses", "users"

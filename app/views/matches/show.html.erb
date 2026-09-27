@@ -1,0 +1,29 @@
+<h1><%= @match.partner_for(current_user.id).name %>さんとのメッセージ</h1>
+
+<p><%= @match.post.title %>でマッチしました</p>
+
+<div class="messages">
+  <% @messages.each do |message| %>
+    <div class="message <%= message.sender_id == current_user.id ? 'mine' : 'partner' %>">
+      <p><strong><%= message.sender.name %></strong>:<%= message.body %></p>
+      <p class="timestamp"><%= message.created_at.strftime("%-m/%-d %H:%M") %></p>
+    </div>
+  <% end %>
+</div>
+
+<%= form_with model: @message, url: match_messages_path(@match), local: true do |f| %>
+  <% if @message.errors.any? %>
+    <div class="alert">
+      <ul>
+        <% @message.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.text_area :body, placeholder: "メッセージを入力" %>
+  <%= f.submit "送信" %>
+<% end %>
+
+<%= link_to "マッチ一覧に戻る", matches_path %>

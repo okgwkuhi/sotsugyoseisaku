@@ -8,4 +8,8 @@ Rails.application.routes.draw do
     resources :applications, only: [:new, :create, :index, :update]
     resources :want_again_responses, only: [:new, :create], path: "want-again"    
   end
+
+  resources :matches, only: [:index, :show] do
+    resources :messages, only: [:index, :create]
+  end
 end

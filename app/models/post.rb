@@ -2,6 +2,7 @@ class Post < ApplicationRecord
   belongs_to :user
   has_many :applications, dependent: :destroy
   has_many :want_again_responses, dependent: :destroy
+  has_many :reports, dependent: :nullify
 
   STYLES = ["じっくり系", "ワイワイ系"].freeze
   STATUSES = ["open", "closed", "cancelled"].freeze

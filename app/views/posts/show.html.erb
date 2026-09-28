@@ -43,6 +43,8 @@
     <% else %>
       <%= link_to "応募する", new_post_application_path(@post) %>
     <% end %>
+
+    <p><%= link_to "この主催者を通報する", new_report_path(reported_user_id: @post.user_id, post_id: @post.id) %></p>
   <% end %>
 
   <% if is_eligible && @post.event_at <= Time.current %>

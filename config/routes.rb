@@ -12,4 +12,6 @@ Rails.application.routes.draw do
   resources :matches, only: [:index, :show] do
     resources :messages, only: [:index, :create]
   end
+
+  resources :reports, only: [:new, :create]
 end

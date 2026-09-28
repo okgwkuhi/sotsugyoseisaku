@@ -1,0 +1,34 @@
+<h1>通報する</h1>
+
+<% if @reported_user %>
+  <p>対象:<%= @reported_user.name %>さん</p>
+<% end %>
+
+<%= form_with model: @report, url: reports_path, local: true do |f| %>
+  <% if @report.errors.any? %>
+    <div class="alert">
+      <ul>
+        <% @report.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :reported_user_id %>
+  <%= f.hidden_field :post_id %>
+
+  <div class="field">
+    <%= f.label :reason, "通報理由" %>
+    <%= f.select :reason, Report::REASONS, include_blank: "選択してください" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :detail, "詳細" %>
+    <%= f.text_area :detail, placeholder: "具体的な内容をご記入ください" %>
+  </div>
+
+  <%= f.submit "通報する" %>
+<% end %>
+
+<%= link_to "戻る", root_path %>

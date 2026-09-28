@@ -1,8 +1,8 @@
 FactoryBot.define do
   factory :want_again_response do
-    post { nil }
-    user { nil }
-    target_user { nil }
-    wants_again { false }
+    association :post
+    association :user
+    association :target_user, factory: :user
+    wants_again { true }
   end
 end

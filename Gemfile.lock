@@ -260,6 +260,7 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 4.0)
       websocket (~> 1.0)
+    simplecov (1.2.0)
     sprockets (4.4.1)
       concurrent-ruby (~> 1.1)
       logger
@@ -310,6 +311,7 @@ DEPENDENCIES
   rails (~> 7.1.6)
   rspec-rails
   selenium-webdriver
+  simplecov
   sprockets-rails
   stimulus-rails
   turbo-rails

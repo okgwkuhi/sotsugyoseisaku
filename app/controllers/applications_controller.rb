@@ -1,7 +1,7 @@
 class ApplicationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_post
-  before_action :ensure_organizer!, only: [:index, :update]
+  before_action :ensure_organizer!, only: %i[index update]
 
   def index
     @applications = @post.applications.includes(:user)
@@ -18,7 +18,7 @@ class ApplicationsController < ApplicationController
     if @application.save
       redirect_to post_path(@post), notice: "応募しました。"
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 

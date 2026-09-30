@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
-  before_action :ensure_organizer!, only: [:edit, :update, :destroy]
+  before_action :authenticate_user!, only: %i[new create edit update destroy]
+  before_action :set_post, only: %i[show edit update destroy]
+  before_action :ensure_organizer!, only: %i[edit update destroy]
 
   def index
     @posts = Post.includes(:user)
@@ -13,12 +13,13 @@ class PostsController < ApplicationController
     @styles = Post::STYLES
   end
 
-  def show
-  end
+  def show; end
 
   def new
     @post = current_user.posts.new
   end
+
+  def edit; end
 
   def create
     @post = current_user.posts.new(post_params)
@@ -26,18 +27,15 @@ class PostsController < ApplicationController
     if @post.save
       redirect_to posts_path, notice: "募集を投稿しました。"
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
-  end
-
-  def edit
   end
 
   def update
     if @post.update(post_params)
       redirect_to post_path(@post), notice: "募集を更新しました。"
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

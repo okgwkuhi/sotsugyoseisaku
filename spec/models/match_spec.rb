@@ -16,9 +16,10 @@ RSpec.describe Match, type: :model do
       end
 
       it "Matchは作られない" do
-        result = Match.find_or_create_from_mutual!(post: post_record, user1_id: organizer.id, user2_id: partner.id)
+        result = described_class.find_or_create_from_mutual!(post: post_record, user1_id: organizer.id,
+                                                             user2_id: partner.id)
         expect(result).to be_nil
-        expect(Match.count).to eq(0)
+        expect(described_class.count).to eq(0)
       end
     end
 
@@ -29,25 +30,25 @@ RSpec.describe Match, type: :model do
       end
 
       it "Matchが作られる" do
-        expect {
-          Match.find_or_create_from_mutual!(post: post_record, user1_id: organizer.id, user2_id: partner.id)
-        }.to change(Match, :count).by(1)
+        expect do
+          described_class.find_or_create_from_mutual!(post: post_record, user1_id: organizer.id, user2_id: partner.id)
+        end.to change(described_class, :count).by(1)
       end
 
       it "同じペアに対して2回呼んでも、Matchは1件しか作られない" do
-        Match.find_or_create_from_mutual!(post: post_record, user1_id: organizer.id, user2_id: partner.id)
+        described_class.find_or_create_from_mutual!(post: post_record, user1_id: organizer.id, user2_id: partner.id)
 
-        expect {
-          Match.find_or_create_from_mutual!(post: post_record, user1_id: organizer.id, user2_id: partner.id)
-        }.not_to change(Match, :count)
+        expect do
+          described_class.find_or_create_from_mutual!(post: post_record, user1_id: organizer.id, user2_id: partner.id)
+        end.not_to change(described_class, :count)
       end
 
       it "user1とuser2の順序を入れ替えても、同じMatchとして扱われる" do
-        Match.find_or_create_from_mutual!(post: post_record, user1_id: organizer.id, user2_id: partner.id)
+        described_class.find_or_create_from_mutual!(post: post_record, user1_id: organizer.id, user2_id: partner.id)
 
-        expect {
-          Match.find_or_create_from_mutual!(post: post_record, user1_id: partner.id, user2_id: organizer.id)
-        }.not_to change(Match, :count)
+        expect do
+          described_class.find_or_create_from_mutual!(post: post_record, user1_id: partner.id, user2_id: organizer.id)
+        end.not_to change(described_class, :count)
       end
     end
 
@@ -58,9 +59,10 @@ RSpec.describe Match, type: :model do
       end
 
       it "Matchは作られない" do
-        result = Match.find_or_create_from_mutual!(post: post_record, user1_id: organizer.id, user2_id: partner.id)
+        result = described_class.find_or_create_from_mutual!(post: post_record, user1_id: organizer.id,
+                                                             user2_id: partner.id)
         expect(result).to be_nil
-        expect(Match.count).to eq(0)
+        expect(described_class.count).to eq(0)
       end
     end
   end

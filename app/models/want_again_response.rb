@@ -4,7 +4,7 @@ class WantAgainResponse < ApplicationRecord
   belongs_to :target_user, class_name: "User"
 
   validates :wants_again, inclusion: { in: [true, false] }
-  validates :user_id, uniqueness: { scope: [:post_id, :target_user_id] }
+  validates :user_id, uniqueness: { scope: %i[post_id target_user_id] }
 
   validate :cannot_target_self
   validate :post_must_be_finished
@@ -27,9 +27,9 @@ class WantAgainResponse < ApplicationRecord
   def both_must_be_approved_participants
     return unless post && user_id.present? && target_user_id.present?
 
-    unless approved_participant?(user_id) && approved_participant?(target_user_id)
-      errors.add(:base, "承認された参加者同士でのみ回答できます")
-    end
+    return if approved_participant?(user_id) && approved_participant?(target_user_id)
+
+    errors.add(:base, "承認された参加者同士でのみ回答できます")
   end
 
   def approved_participant?(uid)

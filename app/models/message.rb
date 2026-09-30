@@ -11,8 +11,8 @@ class Message < ApplicationRecord
   def sender_must_be_match_participant
     return unless match && sender_id.present?
 
-    unless [match.user_a_id, match.user_b_id].include?(sender_id)
-      errors.add(:sender, "はこのマッチの参加者ではありません")
-    end
+    return if [match.user_a_id, match.user_b_id].include?(sender_id)
+
+    errors.add(:sender, "はこのマッチの参加者ではありません")
   end
 end

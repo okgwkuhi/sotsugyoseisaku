@@ -16,7 +16,7 @@ class ReportsController < ApplicationController
       redirect_to root_path, notice: "通報を受け付けました。ご協力ありがとうございます。"
     else
       @reported_user = User.find_by(id: @report.reported_user_id)
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 

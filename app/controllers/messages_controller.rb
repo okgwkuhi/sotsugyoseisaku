@@ -11,7 +11,7 @@ class MessagesController < ApplicationController
       redirect_to match_path(@match)
     else
       @messages = @match.messages.includes(:sender).order(:created_at)
-      render "matches/show", status: :unprocessable_entity
+      render "matches/show", status: :unprocessable_content
     end
   end
 

@@ -29,7 +29,7 @@ RSpec.describe "WantAgainResponses", type: :request do
       it "Matchは作られない" do
         sign_in organizer
         post post_want_again_responses_path(post_record),
-          params: { target_user_id: partner.id, wants_again: "true" }
+             params: { target_user_id: partner.id, wants_again: "true" }
 
         expect(Match.count).to eq(0)
       end
@@ -39,12 +39,12 @@ RSpec.describe "WantAgainResponses", type: :request do
       it "Matchが作られる" do
         sign_in organizer
         post post_want_again_responses_path(post_record),
-          params: { target_user_id: partner.id, wants_again: "true" }
+             params: { target_user_id: partner.id, wants_again: "true" }
 
         sign_out organizer
         sign_in partner
         post post_want_again_responses_path(post_record),
-          params: { target_user_id: organizer.id, wants_again: "true" }
+             params: { target_user_id: organizer.id, wants_again: "true" }
 
         expect(Match.count).to eq(1)
       end

@@ -19,9 +19,7 @@ class WantAgainResponseRecorder
     )
     response.wants_again = @wants_again
 
-    unless response.save
-      return Result.new(response, nil, false)
-    end
+    return Result.new(response, nil, false) unless response.save
 
     match = Match.find_or_create_from_mutual!(
       post: @post,
@@ -32,4 +30,3 @@ class WantAgainResponseRecorder
     Result.new(response, match, true)
   end
 end
-

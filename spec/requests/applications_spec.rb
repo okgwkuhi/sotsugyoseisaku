@@ -10,18 +10,18 @@ RSpec.describe "Applications", type: :request do
       before { sign_in applicant }
 
       it "コメント付きで応募できる" do
-        expect {
+        expect do
           post post_applications_path(post_record), params: { application: { comment: "参加希望です" } }
-        }.to change(Application, :count).by(1)
+        end.to change(Application, :count).by(1)
         expect(response).to redirect_to(post_path(post_record))
       end
 
       it "同じ募集に重複して応募できない" do
         create(:application, post: post_record, user: applicant)
 
-        expect {
+        expect do
           post post_applications_path(post_record), params: { application: { comment: "2回目です" } }
-        }.not_to change(Application, :count)
+        end.not_to change(Application, :count)
       end
     end
 
@@ -29,9 +29,9 @@ RSpec.describe "Applications", type: :request do
       before { sign_in organizer }
 
       it "応募できない" do
-        expect {
+        expect do
           post post_applications_path(post_record), params: { application: { comment: "自分の投稿です" } }
-        }.not_to change(Application, :count)
+        end.not_to change(Application, :count)
       end
     end
   end

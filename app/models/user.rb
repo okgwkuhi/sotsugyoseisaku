@@ -9,8 +9,8 @@ class User < ApplicationRecord
   has_many :want_again_responses, dependent: :destroy
   has_many :reports, foreign_key: :reporter_id, dependent: :destroy
 
-  STYLES = ["じっくり系", "ワイワイ系"].freeze
-  LEVELS = ["初心者", "中級者", "上級者"].freeze
+  STYLES = %w[じっくり系 ワイワイ系].freeze
+  LEVELS = %w[初心者 中級者 上級者].freeze
 
   validates :name, presence: true, length: { maximum: 255 }
   validates :style, inclusion: { in: STYLES }

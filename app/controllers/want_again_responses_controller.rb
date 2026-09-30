@@ -10,7 +10,7 @@ class WantAgainResponsesController < ApplicationController
                          .index_by(&:target_user_id)
   end
 
-   def create
+  def create
     result = WantAgainResponseRecorder.call(
       post: @post,
       current_user: current_user,
@@ -25,6 +25,7 @@ class WantAgainResponsesController < ApplicationController
       redirect_to new_post_want_again_response_path(@post), alert: result.response.errors.full_messages.join(", ")
     end
   end
+
   private
 
   def set_post

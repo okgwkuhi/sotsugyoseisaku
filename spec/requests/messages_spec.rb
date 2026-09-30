@@ -11,9 +11,9 @@ RSpec.describe "Messages", type: :request do
     context "マッチ当事者の場合" do
       it "メッセージを送信できる" do
         sign_in user_a
-        expect {
+        expect do
           post match_messages_path(match), params: { message: { body: "また遊びましょう!" } }
-        }.to change(Message, :count).by(1)
+        end.to change(Message, :count).by(1)
         expect(response).to redirect_to(match_path(match))
       end
     end
@@ -21,18 +21,18 @@ RSpec.describe "Messages", type: :request do
     context "マッチ当事者でない場合" do
       it "メッセージを送信できない" do
         sign_in outsider
-        expect {
+        expect do
           post match_messages_path(match), params: { message: { body: "割り込みメッセージ" } }
-        }.not_to change(Message, :count)
+        end.not_to change(Message, :count)
       end
     end
 
     context "本文が空の場合" do
       it "送信できずエラーになる" do
         sign_in user_a
-        expect {
+        expect do
           post match_messages_path(match), params: { message: { body: "" } }
-        }.not_to change(Message, :count)
+        end.not_to change(Message, :count)
       end
     end
   end

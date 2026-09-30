@@ -4,15 +4,15 @@ class Post < ApplicationRecord
   has_many :want_again_responses, dependent: :destroy
   has_many :reports, dependent: :nullify
 
-  STYLES = ["じっくり系", "ワイワイ系"].freeze
-  STATUSES = ["open", "closed", "cancelled"].freeze
+  STYLES = %w[じっくり系 ワイワイ系].freeze
+  STATUSES = %w[open closed cancelled].freeze
 
   validates :title, :game_name, :event_at, :area, presence: true
   validates :capacity, numericality: { greater_than: 0 }
   validates :style, inclusion: { in: STYLES }
   validates :status, inclusion: { in: STATUSES }
 
-  scope :upcoming, -> { where("event_at >= ?", Time.current).order(:event_at) }
+  scope :upcoming, -> { where(event_at: Time.current..).order(:event_at) }
   scope :by_game, ->(game_name) { where(game_name: game_name) if game_name.present? }
   scope :by_style, ->(style) { where(style: style) if style.present? }
 

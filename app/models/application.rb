@@ -16,7 +16,7 @@ class Application < ApplicationRecord
 
   def reject!
     update!(status: "rejected")
-  end  
+  end
 
   private
 

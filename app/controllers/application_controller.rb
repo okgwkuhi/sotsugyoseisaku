@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :level, :style, :favorite_games])
-    devise_parameter_sanitizer.permit(:account_update, keys: [:name, :level, :style, :favorite_games])
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[name level style favorite_games])
+    devise_parameter_sanitizer.permit(:account_update, keys: %i[name level style favorite_games])
   end
 end

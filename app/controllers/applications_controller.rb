@@ -25,11 +25,18 @@ class ApplicationsController < ApplicationController
   def update
     @application = @post.applications.find(params[:id])
 
-    if @application.update(status: params[:status])
+    case params[:status]
+    when "approved"
+      @application.approve!
+      redirect_to post_applications_path(@post), notice: "ステータスを更新しました。"
+    when "rejected"
+      @application.reject!
       redirect_to post_applications_path(@post), notice: "ステータスを更新しました。"
     else
-      redirect_to post_applications_path(@post), alert: "更新に失敗しました。"
+      redirect_to post_applications_path(@post), alert: "不正なステータスです。"
     end
+  rescue ActiveRecord::RecordInvalid
+    redirect_to post_applications_path(@post), alert: "更新に失敗しました。"
   end
 
   private

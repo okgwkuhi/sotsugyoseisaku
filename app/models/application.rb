@@ -10,6 +10,14 @@ class Application < ApplicationRecord
 
   validate :cannot_apply_to_own_post
 
+  def approve!
+    update!(status: "approved")
+  end
+
+  def reject!
+    update!(status: "rejected")
+  end  
+
   private
 
   def cannot_apply_to_own_post

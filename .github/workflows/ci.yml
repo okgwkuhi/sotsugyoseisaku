@@ -35,6 +35,13 @@ jobs:
         with:
           ruby-version: 3.2.5
           bundler-cache: true
+      
+      - name: Wait for PostgreSQL
+        run: |
+          until pg_isready -h localhost -p 5432; do
+            echo "Waiting for postgres..."
+            sleep 2
+          done
 
       - name: Set up database
         run: |

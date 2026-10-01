@@ -1,4 +1,4 @@
-require:
+plugins:
   - rubocop-rails
   - rubocop-rspec
 
@@ -35,4 +35,13 @@ RSpec/MultipleExpectations:
 
 RSpec/ContextWording:
   Enabled: false
+
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+Rails/InverseOf:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 15
   

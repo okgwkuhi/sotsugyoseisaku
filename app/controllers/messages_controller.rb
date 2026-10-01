@@ -7,12 +7,12 @@ class MessagesController < ApplicationController
     @message = @match.messages.new(message_params)
     @message.sender = current_user
 
-    if @message.save
-      redirect_to match_path(@match)
-    else
+    unless @message.save
       @messages = @match.messages.includes(:sender).order(:created_at)
-      render "matches/show", status: :unprocessable_content
+      return render "matches/show", status: :unprocessable_content
     end
+
+    redirect_to match_path(@match)
   end
 
   private

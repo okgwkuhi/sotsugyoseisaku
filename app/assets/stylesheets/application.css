@@ -31,10 +31,16 @@ a:hover { text-decoration: underline; }
 
 h1, h2 { margin: 1rem 0 0.75rem; }
 
-.container, body > * {
+.container,
+.notice,
+.alert,
+.footer-bottom {
   max-width: 720px;
-  margin: 0 auto;
-  padding: 0 16px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 16px;
+  padding-right: 16px;
+  box-sizing: border-box;
 }
 
 /* ==== ヘッダー ==== */
@@ -140,9 +146,11 @@ select#game_name, select#style {
 
 /* ==== メッセージ・エラー ==== */
 .notice, .alert {
-  padding: 10px 14px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   border-radius: 6px;
-  margin: 12px 0;
+  margin-top: 12px;
+  margin-bottom: 12px;
   font-size: 0.9rem;
 }
 .notice { background: #e6f4ea; color: #1e4620; }
@@ -151,11 +159,13 @@ select#game_name, select#style {
 /* ==== フッター ==== */
 .footer-bottom {
   margin-top: 2rem;
-  padding: 16px;
+  padding-top: 16px;
+  padding-bottom: 16px;
   border-top: 1px solid #e0e0e0;
   font-size: 0.85rem;
   color: #777;
 }
+
 .footer-bottom .footer-links {
   list-style: none;
   display: flex;

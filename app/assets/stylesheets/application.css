@@ -172,3 +172,9 @@ select#game_name, select#style {
   gap: 16px;
   padding: 0;
 }
+
+.field-checkbox label {
+  display: inline;
+  margin-left: 6px;
+  font-weight: normal;
+}

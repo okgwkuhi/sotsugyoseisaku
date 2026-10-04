@@ -4,8 +4,7 @@ class PostsController < ApplicationController
   before_action :ensure_organizer!, only: %i[edit update destroy]
 
   def index
-    @posts = Post.includes(:user)
-                 .upcoming
+    @posts = Post.upcoming
                  .by_game(params[:game_name])
                  .by_style(params[:style])
 

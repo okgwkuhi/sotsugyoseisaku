@@ -85,6 +85,8 @@ Rails.application.configure do
     Bullet.console = true
     Bullet.rails_logger = true
     Bullet.add_footer = true
-  end
 
+    Bullet.add_safelist type: :unused_eager_loading, class_name: "Match", association: :user_a
+    Bullet.add_safelist type: :unused_eager_loading, class_name: "Match", association: :user_b  
+  end
 end

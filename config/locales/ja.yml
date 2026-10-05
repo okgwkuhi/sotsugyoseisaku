@@ -27,4 +27,14 @@ ja:
       application:
         comment: 一言コメント
         status: ステータス
-        
+      report:
+        reason: 通報理由
+        detail: 詳細
+        reported_user: 通報対象のユーザー
+    errors:
+      models:
+        report:
+          attributes:
+            reason:
+              blank: を選択してください
+              

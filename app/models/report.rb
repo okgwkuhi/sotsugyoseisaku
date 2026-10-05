@@ -6,7 +6,8 @@ class Report < ApplicationRecord
   REASONS = %w[迷惑行為 なりすまし 不適切な内容 その他].freeze
   STATUSES = %w[pending reviewed].freeze
 
-  validates :reason, inclusion: { in: REASONS }
+  validates :reason, presence: true
+  validates :reason, inclusion: { in: REASONS }, allow_blank: true
   validates :status, inclusion: { in: STATUSES }
 
   validate :cannot_report_self

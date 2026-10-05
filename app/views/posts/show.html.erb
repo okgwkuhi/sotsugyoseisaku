@@ -29,7 +29,6 @@
 <% if user_signed_in? %>
   <% if @post.organizer?(current_user) %>
     <p>
-      (自分の投稿です)
       <%= link_to "編集する", edit_post_path(@post) %>
       <%= button_to "削除する", post_path(@post), method: :delete,
             form: { data: { turbo_confirm: "本当にこの募集を削除しますか?" } } %>
@@ -37,7 +36,7 @@
     </p>
   <% else %>
     <% if my_application %>
-      <p>応募済みです(ステータス:<%= my_application.status %>)</p>
+      <p>応募済みです(ステータス:<%= my_application.status_label %>)</p>
     <% elsif @post.full? %>
       <p>この募集は定員に達しました。</p>
     <% else %>

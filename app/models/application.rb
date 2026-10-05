@@ -4,6 +4,12 @@ class Application < ApplicationRecord
 
   STATUSES = %w[pending approved rejected].freeze
 
+  STATUS_LABELS = { "pending" => "承認待ち", "approved" => "承認済み", "rejected" => "見送り" }.freeze
+
+  def status_label
+    STATUS_LABELS[status]
+  end
+
   validates :comment, presence: true
   validates :status, inclusion: { in: STATUSES }
   validates :user_id, uniqueness: { scope: :post_id, message: "はすでにこの募集に応募しています" }

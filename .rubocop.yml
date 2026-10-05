@@ -44,4 +44,8 @@ Rails/InverseOf:
 
 Metrics/MethodLength:
   Max: 15
+
+Rails/SkipsModelValidations:
+  Exclude:
+    - "spec/**/*"
   

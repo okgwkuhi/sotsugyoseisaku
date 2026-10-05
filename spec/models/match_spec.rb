@@ -3,7 +3,9 @@ require "rails_helper"
 RSpec.describe Match, type: :model do
   let(:organizer) { create(:user) }
   let(:partner) { create(:user) }
-  let(:post_record) { create(:post, user: organizer, event_at: 1.day.ago) }
+  let(:post_record) do
+    create(:post, user: organizer).tap { |p| p.update_column(:event_at, 1.day.ago) }
+  end
 
   before do
     create(:application, post: post_record, user: partner, status: "approved")

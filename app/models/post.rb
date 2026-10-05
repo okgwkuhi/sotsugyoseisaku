@@ -11,6 +11,7 @@ class Post < ApplicationRecord
   validates :capacity, numericality: { greater_than: 0 }
   validates :style, inclusion: { in: STYLES }
   validates :status, inclusion: { in: STATUSES }
+  validate :event_at_must_be_in_the_future, on: :create
 
   scope :upcoming, -> { where(event_at: Time.current..).order(:event_at) }
   scope :by_game, ->(game_name) { where(game_name: game_name) if game_name.present? }
@@ -38,5 +39,13 @@ class Post < ApplicationRecord
 
   def organizer_id_or_approved_applicant?(uid)
     user_id == uid || approved_user_ids.include?(uid)
+  end
+
+  private
+
+  def event_at_must_be_in_the_future
+    return if event_at.blank?
+
+    errors.add(:event_at, "は現在より後の日時を指定してください") if event_at < Time.current
   end
 end

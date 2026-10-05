@@ -7,7 +7,7 @@
     <div class="application-card">
       <p><strong><%= application.user.name %></strong>(<%= application.user.level %>・<%= application.user.style %>)</p>
       <p><%= application.comment %></p>
-      <p>ステータス:<%= application.status %></p>
+      <p>ステータス:<%= application.status_label %></p>
 
       <% if application.status == "pending" %>
         <%= button_to "承認", post_application_path(@post, application),

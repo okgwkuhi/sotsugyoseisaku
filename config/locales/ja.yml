@@ -1,0 +1,30 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+      post: 募集
+      application: 応募
+    attributes:
+      user:
+        name: お名前
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード確認
+        level: レベル
+        style: 温度感
+        favorite_games: 好きなゲーム
+        current_password: 現在のパスワード
+      post:
+        title: 募集タイトル
+        game_name: ゲーム名
+        event_at: 日時
+        area: エリア
+        meeting_place: 詳細な場所
+        capacity: 募集人数
+        style: 温度感
+        level: 対象レベル
+        description: 詳細説明
+      application:
+        comment: 一言コメント
+        status: ステータス
+        
